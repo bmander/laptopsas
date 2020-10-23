@@ -31,29 +31,34 @@ def generate_hypothesis( length, samples, h, x0, y0, pulsewidth=0.0004, samplesi
 from matplotlib import pyplot as plt
 import numpy as np
 
-ss = massage( read_pingfile( "data/exterior.sonar" ) )
+def main(fn):
+    ss = massage( read_pingfile( fn ) )
 
-plt.imshow( ss, aspect="auto" )
-plt.show()
+    plt.imshow( ss, aspect="auto" )
+    plt.show()
 
-rows = []
-for y in np.arange(0,10,0.1):
-	row = []
-	for x in np.arange(0.0,8.0,0.1):
-		print x,y,
-		ss_xy = np.array(list(generate_hypothesis( 10.4, 400, 2.0, x, y )))
+    rows = []
+    for y in np.arange(0,10,0.1):
+            row = []
+            for x in np.arange(0.0,8.0,0.1):
+                    print x,y,
+                    ss_xy = np.array(list(generate_hypothesis( 10.4, 400, 2.0, x, y )))
 
-		refl_mat = ss_xy*ss
-		refl = np.sum(refl_mat)
+                    refl_mat = ss_xy*ss
+                    refl = np.sum(refl_mat)
 
-		row.append( refl )
-	rows.append( row )
+                    row.append( refl )
+            rows.append( row )
 
-	# # save images as we go along
-	# plt.imshow( rows, aspect="auto" )
-	# plt.savefig( "/Users/brandon/Documents/%s-plot.png"%(y,))
+            # # save images as we go along
+            # plt.imshow( rows, aspect="auto" )
+            # plt.savefig( "/Users/brandon/Documents/%s-plot.png"%(y,))
 
-plt.imshow( rows, aspect="auto")
-plt.show()
+    plt.imshow( rows, aspect="auto")
+    plt.show()
 
+if __name__=='__main__':
 
+    pingfile="data/exterior.sonar"
+
+    main(pingfile)
